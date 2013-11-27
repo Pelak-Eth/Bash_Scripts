@@ -4,8 +4,18 @@ echo "##########################################################################
 ######     	     	      Version Beta 0.1  	  	  	  ######
 ######			         @AUTHOR P	              	  	  ######
 ################################################################################";
-echo -e "\n\n\n"
-echo -e "Do you wish to install:\n--------------------------------------------\ngit\ncurl\nphp5\napache2\nlibapache2-mod-php5\nphp-pear\nmysql-server\nphp5-mysql?\n--------------------------------------------\n"
+echo -e "\n\n\n\n"
+echo -e "Do you wish to install:
+--------------------------------------------
+git
+curl
+php5
+apache2
+libapache2-mod-php5
+php-pear
+mysql-server
+php5-mysql
+--------------------------------------------"
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
