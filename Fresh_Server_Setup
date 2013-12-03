@@ -1,11 +1,23 @@
 #!/bin/bash
-echo "################################################################################
+tput setaf 2
+printf "%`tput cols`s"|tr ' ' '#'
+echo "
 ###### 			Welcome to Fresh Server Setup 	  	  	  ######
 ######     	     	      Version Beta 0.1  	  	  	  ######
-######			         @AUTHOR P	              	  	  ######
-################################################################################";
+######			         @AUTHOR P	              	  	  ######";
+printf "%`tput cols`s"|tr ' ' '#'
+echo "This Script will setup a developement web server on this machine";
+echo "Are you running from the correct location?";
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+echo "Good, starting prompts now";
+break;;
+        No ) exit;;
+    esac
+done
 echo -e "\n\n\n\n"
-echo -e "Do you wish to install:
+echo -e "Do you wish to install the newest versions of:
 --------------------------------------------
 git
 curl
@@ -38,9 +50,14 @@ do
         sudo apt-get install $name -y
 done
 echo -e "\n"
-# Enable apache rewrite module
-echo "Enabling Apache2 Rewrite Module";
-sudo a2enmod rewrite
+break;;
+        No ) break;;
+    esac
+done
+echo -e "Do you wish to configure git?";
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
 echo "Setting up Git config";
 # Set git user info
 echo -n "Enter git username and press [ENTER]: ";
@@ -49,18 +66,89 @@ echo -n "Enter git email and press [ENTER]: ";
 read email;
 sudo git config --global user.name $username
 sudo git config --global user.email $email
-echo -n "Enter and press [ENTER]: ";
-read site_name;
+break;;
+        No ) break;;
+    esac
+done
+echo -e "Do you wish to setup a virtual host for your site?";
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes )
+
+echo -n "Enter website directory name without www or .com and press [ENTER]: Default location is /var/www/";
+read site;
+echo -n "Enter local IP of virtual host server and press [ENTER]: @TODO finish ";
+read siteip;
+echo -n "Enter IPs allowed to access site, seperate multiple IPs with 1 space only: ";
+read ip;
+echo -n "Enter email for apache admin section and press [ENTER]: ";
+read email;
+if [ ! -d "/var/www/$site" ]; then
+	sudo mkdir /var/www/$site
+fi
+echo -n "Enter your linux username and press [ENTER]: ";
+read linuxuser;
+sudo chown -R www-data:www-data /var/www/$site
+sudo usermod -a -G www-data $linuxuser
+# Create VirtualHost in default location /etc/apache2/site-available/
+echo "<VirtualHost *:80>
+        ServerAdmin $email
+        ServerName $site.local
+        DocumentRoot /var/www/$site/public
+        RewriteEngine on
+        <Directory /var/www/$site/public>
+                Options Indexes FollowSymLinks
+                DirectoryIndex index.php
+                AllowOverride all
+                Order allow,deny
+                allow from $ip
+        </Directory>
+        <Location />
+                RewriteEngine on
+                RewriteCond %{REQUEST_FILENAME} -s [OR]
+                RewriteCond %{REQUEST_FILENAME} -l [OR]
+                RewriteCond %{REQUEST_FILENAME} -d
+                RewriteRule ^.*$ - [NC,L]
+                RewriteRule ^.*$ /index.php [NC,L]
+        </Location>
+        ErrorLog /var/www/$site/logs/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel debug
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>"  | sudo tee -a /etc/apache2/sites-available/$site.conf;
+# Add the host to the hosts file
+echo "Adding $site to your hosts file";
+echo 127.0.0.1 $site.local | sudo tee -a /etc/hosts;
+# Enable the site
+echo "Enabling $site now";
+sudo a2ensite $site.conf;
+# Enable apache rewrite module
+echo "Enabling Apache2 Rewrite Module";
+sudo a2enmod rewrite;
 #restart apache2
 echo "Restarting Apache2 for sanity";
 sudo service apache2 restart
+#new site
+echo "Your new site is available at http://$site.local";
 break;;
         No ) break;;
     esac
 done
 #install PHP related packages
 echo -e "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-echo -e "Do you wish to install PHP related packages:\n--------------------------------------------\nComposer Globally\nPHP-Unit Testing\nDoctrine2 Globally\nPHP Documentor\nPHP Code Sniffer\nPHP Mess Detector\nAPI-Gen\nPHP Project Wizard?\n--------------------------------------------"
+echo -e "Do you wish to install PHP related packages:
+--------------------------------------------
+Composer Globally
+PHP-Unit Testing\nDoctrine2 Globally
+PHP Documentor
+PHP Code Sniffer
+PHP Mess Detector
+API-Gen
+PHP Project Wizard
+--------------------------------------------"
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
@@ -106,7 +194,15 @@ break;;
     esac
 done
 echo -e "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-echo -e "Do you wish to install composer dependencies:\n--------------------------------------------\nZend Framework 2\ndoctrine-orm-module\nbjy-authorize\nzfc-user\nzfc-user-doctrine-orm\ndoctrine-module\nzendframeworkzftool\nzendpdf?\n--------------------------------------------\n"
+echo -e "Do you wish to install composer dependencies:
+--------------------------------------------
+Zend Framework 2\ndoctrine-orm-module
+bjy-authorize\nzfc-user
+zfc-user-doctrine-orm
+doctrine-module
+zendframeworkzftool
+zendpdf
+--------------------------------------------"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) 
@@ -131,6 +227,7 @@ break;;
         No ) break;;
     esac
 done;
+tput setaf 7
 hacked() {
 cat <<"EOT"
 
@@ -150,7 +247,7 @@ cat <<"EOT"
 
 EOT
 }
-asd
+tput setaf 1
 countdown() {
 cat <<"EOT"
   ____                            _             __        ___ _ _ 
@@ -232,12 +329,19 @@ cat <<"EOT"
 EOT
 }
 hacked;
+sleep 3;
 countdown;
+sleep 1;
+echo -e "\n\n\n\n"
 asc3;
 sleep 1;
+echo -e "\n\n\n\n"
 asc2;
 sleep 1;
+echo -e "\n\n\n\n"
 asc1;
 sleep 1;
+echo -e "\n\n\n\n"
 explosion;
+sleep 5;
 exit;
