@@ -1,6 +1,5 @@
 USEFULL BASH SCRIPTS GO HERE
 ====================================
-So far:
 Fresh_Server_Install:
   Will setup everything to get a new local hosted virtual host site setup  @TODO a few things
   
