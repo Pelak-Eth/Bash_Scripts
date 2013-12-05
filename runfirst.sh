@@ -12,7 +12,7 @@ script_names=(
 
 orm
 server-install
-ssh-setup
+ssh-key
 
 )
 #symlink all names listed in script_names array
