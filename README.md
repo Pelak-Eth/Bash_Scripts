@@ -22,4 +22,7 @@ ssh-key:
   Will setup an SSH key using rsa with key size 4096 and then append public key to server
   
 orm.sh:
-  Will run Doctrine2 commands with a GUI prompt.  Commands are run from /var/www/{YOURSITENAME}/vendor/bin/doctrine-module
+  Will run Doctrine2 commands with a GUI prompt.  Default run location is /var/www/{YOURSITENAME}/vendor/bin/doctrine-module.  Prompted to change at start if needed.
+
+c.sh:
+  Will run Composer commands with a GUI prompt.  Default run location is /var/www/{sitename}.  Prompted to change at start if needed.
