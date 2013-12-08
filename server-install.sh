@@ -152,7 +152,7 @@ break;;
 done
 #install PHP related packages
 echo -e "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-echo -e "Do you wish to install PHP related packages:
+echo -e "Do you wish to install PHP related packages for use with NetBeans?
 --------------------------------------------
 Composer Globally
 PHP-Unit Testing\nDoctrine2 Globally
@@ -167,12 +167,14 @@ select yn in "Yes" "No"; do
         Yes )
 #install required packages first
 sudo apt-get install php-pear curl php5 php5-cli
+sudo pear config-set auto_discover 1
 #Global Composer install
 echo "Installing Composer Globally";
 curl -sS https://getcomposer.org/installer | php;
 sudo mv composer.phar /usr/local/bin/composer;
 #PHP-UNIT
 echo "Installing PHP-UNIT Testing";
+sudo pear channel-discover pear.symfony.com
 sudo pear channel-discover pear.phpunit.de;
 sudo pear install pear.phpunit.de/PHPUnit;
 #OR
@@ -184,8 +186,7 @@ sudo pear install pear.phpunit.de/PHPUnit;
 #Doctrine
 echo "Installing Doctrine Globally";
 sudo pear channel-discover pear.doctrine-project.org;
-sudo pear install doctrine/DoctrineORM-2.3.4;   
-echo "maybe 2.3.3";
+sudo pear install doctrine/DoctrineORM-2.3.3;   
 #PHP Documentor
 echo "Installing PHP Documentor";
 sudo pear channel-discover pear.phpdoc.org;
@@ -200,6 +201,7 @@ sudo pear channel-discover pear.pdepend.org;
 sudo pear install --alldeps phpmd/PHP_PMD;
 #API-GEN
 echo "Installing Api-Gen";
+sudo pear channel-discover pear.apigen.org
 sudo pear install pear.apigen.org/apigen;
 #PHP Project Wizard
 echo "Installing PHP Project Wizard (PPW)";
