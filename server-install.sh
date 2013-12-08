@@ -174,9 +174,10 @@ curl -sS https://getcomposer.org/installer | php;
 sudo mv composer.phar /usr/local/bin/composer;
 #PHP-UNIT
 echo "Installing PHP-UNIT Testing";
-sudo pear channel-discover pear.symfony.com
+sudo pear channel-discover pear.symfony.com;
 sudo pear channel-discover pear.phpunit.de;
 sudo pear install pear.phpunit.de/PHPUnit;
+sudo pear install phpunit/PHPUnit_SkeletonGenerator;
 #OR
 #http://phpunit.de/manual/current/en/installation.html
 #http://pear.phpunit.de/
