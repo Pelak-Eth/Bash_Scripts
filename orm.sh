@@ -19,7 +19,7 @@ echo "
 ######     	     	      Version Beta 0.1  	  	  	  ######
 ######			         @AUTHOR P	              	  	  ######";
 printf "%`tput cols`s"|tr ' ' '#'
-echo -e "Is your site path different than /var/www/sitename?";
+echo -e "${White}${Bold} Is your site path different than /var/www/sitename?";
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
@@ -33,6 +33,7 @@ sitepath=/var/www/$defaultsitepath
 break;;
     esac
 done
+cd $sitepath/vendor/doctrine/doctrine-module/bin
 PS3='Please enter your choice: '
 options=(
 "${Red}${Bold}Info:${Normal} Show basic information about all mapped entities."
@@ -46,27 +47,27 @@ select opt in "${options[@]}"
 do
     case $opt in
 	"${Red}${Bold}Info:${Normal} Show basic information about all mapped entities.")
-		php $sitepath/vendor/bin/doctrine-module orm:info
+		php doctrine-module orm:info
 	    ;;
         "${Red}${Bold}Validate-Schema:${Normal} Validate the mapping files.")
             echo "Validating Schema now"
-		php $sitepath/vendor/bin/doctrine-module orm:validate-schema
+		php doctrine-module orm:validate-schema
             ;;
 	"${Red}${Bold}Create-Schema:${Normal} Processes the schema and either create it directly on EntityManager Storage Connection or generate the SQL output.")
             echo "Creating Schema now"
-		php $sitepath/vendor/bin/doctrine-module orm:schema-tool:create
+		php doctrine-module orm:schema-tool:create
             ;;
         "${Red}${Bold}Update-Schema:${Normal} Executes (or dumps) the SQL needed to update the database schema to match the current mapping metadata.")
             echo "Updating Schema now"
-		php $sitepath/vendor/bin/doctrine-module orm:schema-tool:update
+		php doctrine-module orm:schema-tool:update
             ;;
         "${Red}${Bold}Ensure-production-settings:${Normal} Verify that Doctrine is properly configured for a production environment.")
             echo "you chose choice 3"
-		php $sitepath/vendor/bin/doctrine-module orm:ensure-production-settings
+		php doctrine-module orm:ensure-production-settings
             ;;
         "${Red}${Bold}Drop:${Normal} Drop the complete database schema of EntityManager Storage Connection or generate the corresponding SQL output.")
             echo "Control C if you did this by accident ASAP!, Dropping Database Schema now"
-		php $sitepath/vendor/bin/doctrine-module orm:schema-tool:drop
+		php doctrine-module orm:schema-tool:drop
             ;;
         "${Red}${Bold}Quit:${Normal} Exits Script")
             break
