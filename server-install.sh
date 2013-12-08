@@ -1,4 +1,18 @@
 #!/bin/bash
+#Variables for INLINE text styling
+Black=`tput setaf 0`
+Red=`tput setaf 1`
+Green=`tput setaf 2`
+Yellow=`tput setaf 3`
+Blue=`tput setaf 4`
+Magenta=`tput setaf 5`
+Cyan=`tput setaf 6`
+White=`tput setaf 7`
+Normal=`tput sgr0`
+Underline=`tput smul`
+Nounderline=`tput rmul`
+Bold=`tput bold`
+#End Variables for text styling
 tput setaf 2
 printf "%`tput cols`s"|tr ' ' '#'
 echo "
@@ -6,8 +20,8 @@ echo "
 ######     	     	      Version Beta 0.1  	  	  	  ######
 ######			         @AUTHOR P	              	  	  ######";
 printf "%`tput cols`s"|tr ' ' '#'
-echo "This Script will setup a developement web server on this machine";
-echo "Are you running from the correct location?";
+echo "This Script will help setup a lot of shit on this machine";
+echo "${White}${Bold} Are you running from the correct location?";
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
@@ -17,14 +31,11 @@ break;;
     esac
 done
 echo -e "\n\n\n\n"
-echo -e "Do you wish to install the newest versions of:
---------------------------------------------
-git
-curl
+echo -e "Do you wish to install web server using the newest versions of:
+${Normal}--------------------------------------------
 php5
 apache2
 libapache2-mod-php5
-php-pear
 mysql-server
 php5-mysql
 --------------------------------------------"
@@ -54,10 +65,12 @@ break;;
         No ) break;;
     esac
 done
-echo -e "Do you wish to configure git?";
+echo -e "Do you wish to install and configure git?";
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
+echo "Installing git now" 
+sudo apt-get install git
 echo "Setting up Git config";
 # Set git user info
 echo -n "Enter git username and press [ENTER]: ";
@@ -152,6 +165,8 @@ PHP Project Wizard
 select yn in "Yes" "No"; do
     case $yn in
         Yes )
+#install required packages first
+sudo apt-get install php-pear curl php5 php5-cli
 #Global Composer install
 echo "Installing Composer Globally";
 curl -sS https://getcomposer.org/installer | php;
