@@ -19,6 +19,8 @@ c
 #symlink all names listed in script_names array
 for scriptname in "${script_names[@]}"
 do
+	echo "Making $scriptname executable"
+	sudo chmod a+x $DIR/$scriptname.sh
 	sudo ln -s $DIR/$scriptname.sh /usr/local/bin/$scriptname
 done
 echo "Symlinking Complete
