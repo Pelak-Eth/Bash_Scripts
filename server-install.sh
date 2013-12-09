@@ -363,3 +363,4 @@ echo -e "\n\n\n\n"
 explosion;
 sleep 5;
 exit;
+exit;
