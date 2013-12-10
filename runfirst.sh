@@ -15,6 +15,7 @@ server-install
 ssh-key
 c
 java7install
+install-programs
 
 )
 #symlink all names listed in script_names array
